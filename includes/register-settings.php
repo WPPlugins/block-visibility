@@ -45,15 +45,20 @@ function register_settings() {
 										),
 									),
 								),
+								'date_time'          => array(
+									'type'       => 'object',
+									'properties' => array(
+										'enable' => array(
+											'type' => 'boolean',
+										),
+									),
+								),
 
-								// Additional Controls.
+								// Legacy Controls (remove in future version)
 								'time_date'          => array(
 									'type'       => 'object',
 									'properties' => array(
 										'enable'           => array(
-											'type' => 'boolean',
-										),
-										'enable_start_end' => array(
 											'type' => 'boolean',
 										),
 									),
@@ -69,6 +74,12 @@ function register_settings() {
 						'plugin_settings'     => array(
 							'type'       => 'object',
 							'properties' => array(
+								'enable_contextual_indicators' => array(
+									'type' => 'boolean',
+								),
+								'enable_toolbar_controls'  => array(
+									'type' => 'boolean',
+								),
 								'enable_full_control_mode' => array(
 									'type' => 'boolean',
 								),
@@ -94,19 +105,20 @@ function register_settings() {
 						'enable'            => true,
 						'enable_user_roles' => true,
 					),
-
-					// Additional Controls.
-					'time_date'          => array(
+					'date_time'          => array(
 						'enable' => true,
 					),
+					// Additional Controls.
 				),
 				'disabled_blocks'     => array(),
 				'plugin_settings'     => array(
-					'enable_full_control_mode' => false,
-					'remove_on_uninstall'      => false,
+					'enable_contextual_indicators' => true,
+					'enable_toolbar_controls'      => true,
+					'enable_full_control_mode'     => false,
+					'remove_on_uninstall'          => false,
 
 					// Additional Settings.
-					'enable_visibility_notes'  => true,
+					'enable_visibility_notes'      => true,
 				),
 			),
 		)

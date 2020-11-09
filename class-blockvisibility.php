@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:         Block Visibility
- * Plugin URI:          http://www.outermost.co/
- * Description:         Block-based visibility control for WordPress
- * Version:             1.0.1
+ * Plugin URI:          https://www.blockvisibilitywp.com/
+ * Description:         Block Visibility provides visibility controls and scheduling functionality to all WordPress blocks.
+ * Version:             1.1.0
  * Requires at least:   5.4
  * Requires PHP:        5.6
  * Author:              Nick Diego
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_VISIBILITY_VERSION', '1.0.1' );
+define( 'BLOCK_VISIBILITY_VERSION', '1.1.0' );
 define( 'BLOCK_VISIBILITY_PLUGIN_FILE', __FILE__ );
 define( 'BLOCK_VISIBILITY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_VISIBILITY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
