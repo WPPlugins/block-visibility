@@ -3,7 +3,7 @@
  * Plugin Name:         Block Visibility
  * Plugin URI:          https://www.blockvisibilitywp.com/
  * Description:         Block Visibility provides visibility controls and scheduling functionality to all WordPress blocks.
- * Version:             1.2.0
+ * Version:             1.3.0
  * Requires at least:   5.4
  * Requires PHP:        5.6
  * Author:              Nick Diego
@@ -23,14 +23,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_VISIBILITY_VERSION', '1.2.0' );
+define( 'BLOCK_VISIBILITY_VERSION', '1.3.0' );
 define( 'BLOCK_VISIBILITY_PLUGIN_FILE', __FILE__ );
 define( 'BLOCK_VISIBILITY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_VISIBILITY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'BLOCK_VISIBILITY_PLUGIN_BASE', plugin_basename( __FILE__ ) );
 define( 'BLOCK_VISIBILITY_REVIEW_URL', 'https://wordpress.org/support/plugin/block-visibility/reviews/?filter=5' );
 define( 'BLOCK_VISIBILITY_SUPPORT_URL', 'https://wordpress.org/support/plugin/block-visibility/' );
-define( 'BLOCK_VISIBILITY_SETTINGS_URL', admin_url( 'options-general.php?page=block-visibility-settings' ) );
+define( 'BLOCK_VISIBILITY_SETTINGS_URL', admin_url( 'options-general.php?page=block-visibility-settings&tab=visibility-controls' ) );
 
 if ( ! class_exists( 'BlockVisibility' ) ) {
 	/**
@@ -94,6 +94,11 @@ if ( ! class_exists( 'BlockVisibility' ) ) {
 
 			// Needs to be included at all times due to show_in_rest.
 			require_once BLOCK_VISIBILITY_PLUGIN_DIR . 'includes/register-settings.php';
+			require_once BLOCK_VISIBILITY_PLUGIN_DIR . 'includes/register-routes.php';
+
+			// Utility functions that are also used by register-routes.php so
+			// needs to be included at all times.
+			require_once BLOCK_VISIBILITY_PLUGIN_DIR . 'includes/utils/user-functions.php';
 
 			// Only include in the admin.
 			if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
@@ -103,7 +108,6 @@ if ( ! class_exists( 'BlockVisibility' ) ) {
 
 				// Utility functions.
 				require_once BLOCK_VISIBILITY_PLUGIN_DIR . 'includes/utils/get-asset-file.php';
-				require_once BLOCK_VISIBILITY_PLUGIN_DIR . 'includes/utils/get-user-roles.php';
 			}
 
 			// Only include on the frontend.
@@ -216,7 +220,7 @@ if ( ! class_exists( 'BlockVisibility' ) ) {
 }
 
 /**
- * The main function for that returns the Block Visibility class
+ * The main function that returns the Block Visibility class
  *
  * @since 1.0.0
  * @return object|BlockVisibility
