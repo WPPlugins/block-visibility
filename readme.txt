@@ -1,25 +1,25 @@
-=== Block Visibility ===
+=== Block Visibility — Conditional Visibility Controls for all Blocks ===
 Author URI: https://www.nickdiego.com
 Contributors: ndiego, outermostdesign
-Tags: visibility, scheduling, hide, schedule, blocks, schedule blocks, hide blocks, block editor
+Tags: visibility, schedule blocks, hide blocks, conditional blocks, restrict blocks
 Requires at least: 5.5
 Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPL-2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Provides visibility controls and scheduling functionality to all WordPress blocks.
+Show or hide any WordPress block with ease. Schedule when blocks should be visible. Restrict blocks to specific screen sizes, user roles, and more.
 
 == Description ==
 
-Block Visibility allows you to dynamically control which blocks are visible on your website and who can see them, which includes the ability to schedule blocks and conditionally display blocks based on screen size.
+Block Visibility allows you to control which blocks are visible on your website and who can see them, which includes the ability to schedule blocks and conditionally display blocks based on screen size.
 
 Built for the new Block (Gutenberg) Editor, this plugin was designed to work with **any** WordPress block. This includes blocks natively provided by WordPress as well as third-party blocks.
 
 === Visibility Controls ===
 
-Visibility controls determine whether a block should be visible to users on the frontend of your website. Current controls include:
+Visibility controls determine whether a block should be visible to users on the frontend of your website based on a range of conditions. Current controls include:
 
 * **Hide** blocks from all users
 * **Schedule** block visibility using a start and end date/time
@@ -103,17 +103,17 @@ https://www.youtube.com/watch?v=DdDwQCE7RNE
 
 == Frequently Asked Questions ==
 
-= Does this plugin really work with any block? (i.e. What is Full Control Mode?) =
-Yes! However, not all block types are enabled by default. Visibility controls are only provided to blocks that can be added directly to a page/post by the block inserter. Therefore, some specialized blocks, such as child blocks, are not included by default. An example being the individual Column block that is part of the larger Columns block.
+= Do conditional visibility controls really work with any block? (i.e. What is Full Control Mode?) =
+Yes! However, not all block types are enabled by default. Controls are only provided to blocks that can be added directly to a page/post by the block inserter. Therefore, some specialized blocks, such as child blocks, are not included by default. An example being the individual Column block that is part of the larger Columns block.
 
-That said, you can enable Full Control Mode in the plugin settings. This removes all restrictions and adds visibility controls to every block. You probably will not need Full Control Mode in most cases, but it is there if you do!
+That said, you can enable Full Control Mode in the plugin settings. This removes all restrictions and adds conditional visibility controls to every block. You probably will not need Full Control Mode in most cases, but it is there if you do!
 
 Furthermore, while this plugin was designed to be compatible with all blocks, the WordPress ecosystem is ever expanding. If you find a conflict with a certain block, please let us know in the plugin support forum and we will investigate. We are committed to bringing visibility control to **every** block.
 
 = Can Block Visibility be used with any WordPress theme? =
 Yup, this plugin is not theme specific. You just need to be running the latest version of WordPress (5.4+) and be using the Block Editor. This plugin provides zero functionality to the Classic Editor.
 
-= Will more visibility controls be added in the future? =
+= Will more conditional visibility controls be added in the future? =
 Yes, and if you have a specific idea of what you would like to see, please submit a feature request in the plugin support forum on WordPress.org.
 
 = Does this plugin work with the upcoming full site editing functionality? =
@@ -123,9 +123,16 @@ As of version 1.4.0, Block Visibility is supported in the Site Editor, which is 
 No. Block Visibility was design specifically for the WordPress Block (Gutenberg) Editor, and therefore does no work on pages that are controlled by the Elementor editor.
 
 = Is block visibility controlled using CSS? =
-Visibility is controlled primarily on the server, so if a block should be hidden based on the set controls, it will not even be rendered. This ensures the plugin does not load any additional resources on the frontend of your site, thereby optimizing performance. The **one exception** to this is the Screen Size controls. Visibility by screen size requires the use of CSS, which is loaded to the frontend of your site if, and only if, these controls are enabled. You can opt to disable this CSS and add the necessary yourself. Visit the plugin [documentation]() to learn more.
+Visibility is controlled primarily on the server, so if a block should be hidden based on the set controls, it will not even be rendered. This ensures the plugin does not load any additional resources on the frontend of your site, thereby optimizing performance. The **one exception** to this is the Screen Size controls. Visibility by screen size requires the use of CSS, which is loaded to the frontend of your site if, and only if, these controls are enabled. You can opt to disable this CSS and add the necessary yourself. Visit the plugin [Knowledge Base](https://www.blockvisibilitywp.com/knowledge-base/) to learn more.
 
 == Changelog ==
+
+= 1.5.1 - 2021-02-28 =
+
+**Fixed**
+
+* Fixed error where plugin settings were not being fetched from the REST api as expected. This issue impacted websites that had WordPress installed in a subdirectory. (Thanks @elenasaygo for discovering this issue and opening a support ticket!)
+* Fixed logic in the `get_current_user_role()` so no errors are thrown when WordPress installed in a subdirectory.
 
 = 1.5.0 - 2021-02-22 =
 
