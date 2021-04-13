@@ -21,7 +21,7 @@ final class Block_Visibility {
 	 * @since 1.4.0
 	 * @var string
 	 */
-	public $version = '1.7.1';
+	public $version = '1.8.0';
 
 	/**
 	 * Return singleton instance of the Block Visibility plugin.
@@ -183,7 +183,7 @@ final class Block_Visibility {
 	 *
 	 * @return array Returns updated results.
 	 */
-	public function conditionally_remove_attributes( $result, $server, $request ) {
+	public function conditionally_remove_attributes( $result, $server, $request ) { // phpcs:ignore
 
 		if ( strpos( $request->get_route(), '/wp/v2/block-renderer' ) !== false ) {
 

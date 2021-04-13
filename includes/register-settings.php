@@ -46,6 +46,7 @@ function register_settings() {
 						'enable'            => array(
 							'type' => 'boolean',
 						),
+						// Deprecated in 1.8.0.
 						'enable_scheduling' => array(
 							'type' => 'boolean',
 						),
@@ -111,6 +112,14 @@ function register_settings() {
 					),
 				),
 				// Third-party Integrations.
+				'acf'                => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
 				'wp_fusion'          => array(
 					'type'       => 'object',
 					'properties' => array(
@@ -130,6 +139,12 @@ function register_settings() {
 		'plugin_settings'     => array(
 			'type'       => 'object',
 			'properties' => array(
+				'default_controls'              => array(
+					'type'  => 'array',
+					'items' => array(
+						'type' => 'string',
+					),
+				),
 				'enable_contextual_indicators'  => array(
 					'type' => 'boolean',
 				),
@@ -191,9 +206,16 @@ function register_settings() {
 				'enable_advanced_controls' => false,
 				'enable_frontend_css'      => true,
 			),
+			'query_string'       => array(
+				'enable' => true,
+			),
+			'wp_fusion'          => array(
+				'enable' => true,
+			),
 		),
 		'disabled_blocks'     => array(),
 		'plugin_settings'     => array(
+			'default_controls'              => array( 'date_time', 'visibility_by_role', 'screen_size' ),
 			'enable_contextual_indicators'  => true,
 			'enable_toolbar_controls'       => true,
 			'enable_editor_notices'         => true,
@@ -204,7 +226,7 @@ function register_settings() {
 		),
 	);
 
-	$defaults = apply_filters( 'block_visibility_setting_defaults', $defaults );
+	$defaults = apply_filters( 'block_visibility_settings_defaults', $defaults );
 
 	register_setting(
 		'block_visibility',

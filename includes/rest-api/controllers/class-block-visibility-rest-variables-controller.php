@@ -73,22 +73,26 @@ class Block_Visibility_REST_Variables_Controller extends WP_REST_Controller {
 		}
 
 		$plugin_variables = array(
-			'version'     => BLOCK_VISIBILITY_VERSION,
-			'settingsUrl' => BLOCK_VISIBILITY_SETTINGS_URL,
-			'supportUrl'  => BLOCK_VISIBILITY_SUPPORT_URL,
+			'version'      => BLOCK_VISIBILITY_VERSION,
+			'settings_url' => BLOCK_VISIBILITY_SETTINGS_URL,
+			'support_url'  => BLOCK_VISIBILITY_SUPPORT_URL,
 		);
 
 		$variables = array(
-			'currentUsersRoles' => get_current_user_role(),
-			'userRoles'         => get_user_roles(),
-			'pluginVariables'   => $plugin_variables,
-			'isFullControlMode' => $is_full_control_mode,
-			'isPro'             => defined( 'BVP_VERSION' ), // If the Pro version constant is set, then Block Visibility Pro is active.
-			'integrations'      => array(
-				'wpFusion' => array(
-					'active'        => function_exists( 'wp_fusion' ),
-					'tags'          => self::get_wp_fusion_tags(),
-					'excludeAdmins' => self::get_wp_fusion_exclude_admins(),
+			'current_users_roles'  => get_current_user_role(),
+			'user_roles'           => get_user_roles(),
+			'plugin_variables'     => $plugin_variables,
+			'is_full_control_mode' => $is_full_control_mode,
+			'is_pro'               => defined( 'BVP_VERSION' ), // If the Pro version constant is set, then Block Visibility Pro is active.
+			'integrations'         => array(
+				'acf'       => array(
+					'active' => function_exists( 'acf' ),
+					'fields' => self::get_acf_fields(),
+				),
+				'wp_fusion' => array(
+					'active'         => function_exists( 'wp_fusion' ),
+					'tags'           => self::get_wp_fusion_tags(),
+					'exclude_admins' => self::get_wp_fusion_exclude_admins(),
 				),
 			),
 		);
@@ -117,34 +121,48 @@ class Block_Visibility_REST_Variables_Controller extends WP_REST_Controller {
 			'title'      => 'variables',
 			'type'       => 'object',
 			'properties' => array(
-				'currentUsersRoles' => array(
+				'current_users_roles'  => array(
 					'type'  => 'array',
 					'items' => array(
 						'type' => 'string',
 					),
 				),
-				'userRoles'         => array(
+				'user_roles'           => array(
 					'type'  => 'array',
 					'items' => array(
 						'type' => 'string',
 					),
 				),
-				'pluginVariables'   => array(
+				'plugin_variables'     => array(
 					'type'  => 'array',
 					'items' => array(
 						'type' => 'string',
 					),
 				),
-				'isFullControlMode' => array(
+				'is_full_control_mode' => array(
 					'type' => 'boolean',
 				),
-				'isPro'             => array(
+				'is_pro'               => array(
 					'type' => 'boolean',
 				),
-				'integrations'      => array(
+				'integrations'         => array(
 					'type'       => 'object',
 					'properties' => array(
-						'wpFusion' => array(
+						'acf'       => array(
+							'type'       => 'object',
+							'properties' => array(
+								'active' => array(
+									'type' => 'boolean',
+								),
+								'fields' => array(
+									'type'  => 'array',
+									'items' => array(
+										'type' => 'string',
+									),
+								),
+							),
+						),
+						'wp_fusion' => array(
 							'type'       => 'object',
 							'properties' => array(
 								'active'         => array(
@@ -172,6 +190,72 @@ class Block_Visibility_REST_Variables_Controller extends WP_REST_Controller {
 		);
 
 		return $this->schema;
+	}
+
+	/**
+	 * Fetch all available tags in ACF field groups and fields.
+	 *
+	 * @return array
+	 */
+	public static function get_acf_fields() {
+		$all_groups_and_fields = array();
+
+		if (
+			function_exists( 'acf' ) &&
+			function_exists( 'acf_get_field_groups' )
+		) {
+			$groups = acf_get_field_groups();
+
+			if ( is_array( $groups ) ) {
+
+				foreach ( $groups as $group ) {
+					$group_fields = acf_get_fields( $group );
+
+					if ( ! empty( $group_fields ) ) {
+
+						$group_fields_simplified = array();
+
+						foreach ( $group_fields as $key => $fields ) {
+							$group_fields_simplified[] = $fields;
+						}
+
+						$all_groups_and_fields[] = array(
+							'key'    => $group['key'],
+							'title'  => $group['title'],
+							'active' => $group['active'],
+							'fields' => $group_fields_simplified,
+						);
+					}
+				}
+			}
+		} else {
+			$groups = apply_filters( 'acf/get_field_groups', array() ); // phpcs:ignore
+
+			if ( is_array( $groups ) ) {
+
+				foreach ( $groups as $group ) {
+					$group_fields = apply_filters( 'acf/field_group/get_fields', array(), $group['id'] ); // phpcs:ignore
+
+					if ( ! empty( $group_fields ) ) {
+
+						$group_fields_simplified = array();
+
+						foreach ( $group_fields as $key => $fields ) {
+							$group_fields_simplified[] = $fields;
+						}
+
+						$all_groups_and_fields[] = array(
+							'key'    => $group['key'],
+							'title'  => $group['title'],
+							'active' => $group['active'],
+							'fields' => $group_fields_simplified,
+						);
+					}
+				}
+			}
+		}
+
+		return array_reverse( $all_groups_and_fields );
 	}
 
 	/**

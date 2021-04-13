@@ -1,11 +1,11 @@
 === Block Visibility — Conditional Visibility Controls for all Blocks ===
 Author URI: https://www.nickdiego.com/?bv_query=readme
 Contributors: ndiego, outermostdesign
-Tags: visibility, schedule blocks, hide blocks, conditional blocks, restrict blocks
+Tags: visibility, dynamic content, conditional content, conditional blocks, restrict blocks
 Requires at least: 5.5
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 1.7.1
+Stable tag: 1.8.0
 License: GPL-2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Show or hide any WordPress block with ease. Schedule when blocks should be visib
 
 == Description ==
 
-Block Visibility allows you to control which blocks are visible on your website and who can see them, which includes the ability to schedule blocks and conditionally display blocks based on screen size.
+Block Visibility allows you to control which blocks are visible on your website and who can see them. Effortlessly display conditional blocks based on specific schedules, user roles, screen sizes, query strings, ACF fields, WP Fusion tags and more. Block Visibility unlocks the power of dynamic and personalized content.
 
 Built for the new Block (Gutenberg) Editor, this plugin was designed to work with **any** WordPress block. This includes blocks natively provided by WordPress as well as third-party blocks.
 
@@ -28,9 +28,11 @@ Visibility controls determine whether a block should be visible to users on the 
 * Only show blocks to **logged-out** users
 * Only show blocks to users with **specific roles** (Administrator, Subscriber, Customer, Member etc.)
 * Show or hide dynamic blocks based on **URL query strings**. Great for marketing campaigns!
+* More to come...
 
 ==== Third-Party Integrations ====
 
+* **Advanced Custom Fields (ACF):** Ever wanted to control the visibility of block content based on [ACF](https://wordpress.org/plugins/advanced-custom-fields/) fields? Well now you can!
 * **WP Fusion:** Combine Block Visibility with the power of [WP Fusion](https://wordpress.org/plugins/wp-fusion-lite/) to conditionally show or hide content based on data from your favorite CRM or marketing automation platform.
 * More to come...
 
@@ -38,7 +40,7 @@ Have an idea for additional block logic? Let us know in the plugin support forum
 
 === Why do I need this? ===
 
-Block Visibility is a lightweight plugin that is designed to do one thing, and one thing well. While there are countless applications, here are a few examples to get you started:
+Block Visibility is a lightweight plugin that is designed to do one thing, and one thing well. While there are countless applications for dynamic content, here are a few examples to get you started:
 
 * Use as a content management tool. Hide new blocks while you are working on them but still keep the page published.
 * Temporarily hide seasonal content on your website rather than having to delete it.
@@ -47,6 +49,7 @@ Block Visibility is a lightweight plugin that is designed to do one thing, and o
 * Restrict content so it's only visible to your customers or members.
 * Display messaging to logged-out users encouraging them to subscribe to your blog.
 * Conditionally display elements in the upcoming Full Site Editor using advanced visibility logic.
+* Dynamic content and personalization can increase visitor engagement and conversions.
 
 For an **unbiased review**, the plugin was featured on [WordPress Tavern](https://wptavern.com/show-and-hide-content-via-the-block-visibility-wordpress-plugin).
 
@@ -54,13 +57,13 @@ For an **unbiased review**, the plugin was featured on [WordPress Tavern](https:
 
 Tailor Block Visibility to your needs, or those of your clients, with powerful plugin settings.
 
-* Disable any visibility control
-* Configure up to 4 different breakpoints to optimize the screen size controls
-* Restrict visibility controls to specific block types
-* Set permissions so only certain users have access to visibility controls
-* Disable contextual indicators and other plugin utilities
-* Enable Full Control Mode 🚀(See the FAQs)
-* Remove all plugin settings on uninstall
+* Disable any visibility control.
+* Configure up to 4 different breakpoints to optimize the screen size controls.
+* Restrict visibility controls to specific block types.
+* Set permissions so only certain users have access to visibility controls.
+* Disable contextual indicators and other plugin utilities.
+* Enable Full Control Mode 🚀(See the FAQs).
+* Remove all plugin settings on uninstall.
 
 === Plays nice with others  ===
 
@@ -79,6 +82,7 @@ Block Visibility is designed to work with **any** block and has been tested with
 * Getwid
 * EditorsKit
 * Genesis Blocks
+* Advanced Custom Fields (ACF)
 * WP Fusion
 
 Find an issue? Let us know in the plugin support forum and we will investigate ASAP. Excellent compatibility with the greater WordPress block ecosystem is our top priority.
@@ -103,7 +107,7 @@ Stay up-to-date on Block Visibility using the links below. The plugin is also be
 1. Quickly and easily hide show or hide blocks on your website.
 2. Schedule content, i.e. any Gutenberg block, using start and end date/time settings. The plugin provides complete block scheduling and work with all Gutenberg blocks, including WooCommerce as seen here.
 3. Show or hide block on mobile devices, tables, desktops and more.
-4. Control who can see each Gutenberg block with user role restrictions.
+4. Control who can see each Gutenberg block with user role restrictions. Great for personalization.
 5. General plugin settings to enable/disable certain functionality including user permissions and Full Control Mode.
 6. Choose which conditional visibility controls you would like to use on your site.
 7. Disable or enable conditional visibility on certain block types with the Block Manager.
@@ -149,6 +153,30 @@ Visibility is controlled primarily on the server, so if a block should be hidden
 
 == Changelog ==
 
+= 1.8.0 - 2021-04-13 =
+
+**Added**
+
+* Added the [Advanced Custom Field](https://www.blockvisibilitywp.com/knowledge-base/visibility-controls/advanced-custom-fields/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) control, the second third-party integration for Block Visibility! 🎉
+* Added functionality for multiple [Date & Time](https://www.blockvisibilitywp.com/knowledge-base/visibility-controls/date-time/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) schedules. 🎉
+* Added the ability "invert" the Date & Time control per-block. By default, this control allows you to **show** the selected block if at least one schedule applies. You can now optionally **hide** the block if at least one schedule applies!
+* Added the ability to set default visibility controls.
+* Added the ability to easily reset the visibility controls on each block.
+
+**Changed**
+
+* Updated control set controls toggle icon to be more consistent with WP core.
+* Updated popover styling to be more consistent with WP core.
+
+**Removed**
+
+* Removed the `enable_scheduling` setting. Users can now easily toggle visibility controls at the block level so this setting is not longer needed. The entire Date & Time control can still be enabled/disabled in the Visibility Control settings.
+* Removed conditional indicator support for the `startDateTime` and `endDateTime` properties that were deprecated in version 1.4.1. Frontend visibility tests for these properties are still operational, but will likely be removed in version 2.0.
+
+**Fixed**
+
+* Fixed WP Fusion filters to improve the integration.
+
 = 1.7.1 - 2021-03-29 =
 
 **Fixed**
@@ -159,8 +187,8 @@ Visibility is controlled primarily on the server, so if a block should be hidden
 
 **Added**
 
-* Added the WP Fusion control, the first third-party integration for Block Visibility! 🎉
-* Added the Query String control, significantly increasing the marketing capabilities of Block Visibility! 🎉
+* Added the [WP Fusion](https://www.blockvisibilitywp.com/knowledge-base/visibility-controls/wp-fusion/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) control, the first third-party integration for Block Visibility! 🎉
+* Added the [Query String](https://www.blockvisibilitywp.com/knowledge-base/visibility-controls/query-string/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) control, significantly increasing the marketing capabilities of Block Visibility! 🎉
 * Added `react-select` as a project dependency for all multi-select fields.
 
 **Changed**

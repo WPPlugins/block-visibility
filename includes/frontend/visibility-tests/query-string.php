@@ -47,7 +47,7 @@ function prepare_queries( $queries ) {
  * @param boolean $is_visible The current value of the visibility test.
  * @param array   $settings   The core plugin settings.
  * @param array   $attributes The block visibility attributes.
- * @return boolean            Return true is the block should be visible, false if not
+ * @return boolean            Return true if the block should be visible, false if not
  */
 function query_string_test( $is_visible, $settings, $attributes ) {
 
@@ -89,10 +89,10 @@ function query_string_test( $is_visible, $settings, $attributes ) {
 		$any_matches = 0;
 
 		foreach ( $query_string_any as $param => $value ) {
-			if ( isset( $_REQUEST[ $param ] ) ) {
+			if ( isset( $_REQUEST[ $param ] ) ) { // phpcs:ignore
 				if ( ! $value || '*' === $value ) {
 					$any_matches++;
-				} elseif ( $value === $_REQUEST[ $param ] ) {
+				} elseif ( $value === $_REQUEST[ $param ] ) { // phpcs:ignore
 					$any_matches++;
 				}
 			}
@@ -108,10 +108,10 @@ function query_string_test( $is_visible, $settings, $attributes ) {
 		$all_matches = 0;
 
 		foreach ( $query_string_all as $param => $value ) {
-			if ( isset( $_REQUEST[ $param ] ) ) {
+			if ( isset( $_REQUEST[ $param ] ) ) { // phpcs:ignore
 				if ( ! $value || '*' === $value ) {
 					$all_matches++;
-				} elseif ( $value === $_REQUEST[ $param ] ) {
+				} elseif ( $value === $_REQUEST[ $param ] ) { // phpcs:ignore
 					$all_matches++;
 				}
 			}
@@ -125,10 +125,10 @@ function query_string_test( $is_visible, $settings, $attributes ) {
 	// If there is "not" query strings, need to not match any to pass.
 	if ( ! empty( $query_string_not ) ) {
 		foreach ( $query_string_not as $param => $value ) {
-			if ( isset( $_REQUEST[ $param ] ) ) {
+			if ( isset( $_REQUEST[ $param ] ) ) { // phpcs:ignore
 				if ( ! $value || '*' === $value ) {
 					return false;
-				} elseif ( $value === $_REQUEST[ $param ] ) {
+				} elseif ( $value === $_REQUEST[ $param ] ) { // phpcs:ignore
 					return false;
 				}
 			}
