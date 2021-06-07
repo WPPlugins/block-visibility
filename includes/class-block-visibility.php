@@ -21,7 +21,7 @@ final class Block_Visibility {
 	 * @since 1.4.0
 	 * @var string
 	 */
-	public $version = '1.8.0';
+	public $version = '1.9.0';
 
 	/**
 	 * Return singleton instance of the Block Visibility plugin.
@@ -115,7 +115,6 @@ final class Block_Visibility {
 		// Only include on the frontend.
 		if ( ! is_admin() ) {
 			include_once BLOCK_VISIBILITY_ABSPATH . 'includes/frontend/render-block.php';
-			include_once BLOCK_VISIBILITY_ABSPATH . 'includes/frontend/styles.php';
 		}
 	}
 
