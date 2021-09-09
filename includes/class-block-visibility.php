@@ -16,14 +16,6 @@ defined( 'ABSPATH' ) || exit;
 final class Block_Visibility {
 
 	/**
-	 * Block Visibility version.
-	 *
-	 * @since 1.4.0
-	 * @var string
-	 */
-	public $version = '2.0.0';
-
-	/**
 	 * Return singleton instance of the Block Visibility plugin.
 	 *
 	 * @since 1.0.0
@@ -125,7 +117,7 @@ final class Block_Visibility {
 	 */
 	private function define_constants() {
 		$this->define( 'BLOCK_VISIBILITY_ABSPATH', dirname( BLOCK_VISIBILITY_PLUGIN_FILE ) . '/' );
-		$this->define( 'BLOCK_VISIBILITY_VERSION', $this->version );
+		$this->define( 'BLOCK_VISIBILITY_VERSION', get_file_data( BLOCK_VISIBILITY_PLUGIN_FILE, [ 'Version' ] )[0] ); // phpcs:ignore
 		$this->define( 'BLOCK_VISIBILITY_PLUGIN_URL', plugin_dir_url( BLOCK_VISIBILITY_PLUGIN_FILE ) );
 		$this->define( 'BLOCK_VISIBILITY_PLUGIN_BASENAME', plugin_basename( BLOCK_VISIBILITY_PLUGIN_FILE ) );
 		$this->define( 'BLOCK_VISIBILITY_SUPPORT_URL', 'https://wordpress.org/support/plugin/block-visibility/' );
@@ -149,7 +141,7 @@ final class Block_Visibility {
 
 	/**
 	 * This is needed to resolve an issue with blocks that use the
-	 * ServerSideRender component. Regustering the attributes only in js
+	 * ServerSideRender component. Registering the attributes only in js
 	 * can cause an error message to appear. Registering the attributes in
 	 * PHP as well, seems to resolve the issue. Ideally, this bug will be
 	 * fixed in the future.

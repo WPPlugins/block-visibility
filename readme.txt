@@ -5,7 +5,7 @@ Tags: visibility, dynamic content, conditional content, conditional blocks, rest
 Requires at least: 5.5
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPL-2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,7 @@ It takes just **3 simple steps**:
 * Only show blocks to **logged-in** users.
 * Only show blocks to **logged-out** users.
 * Only show blocks to users with **specific roles** (Administrator, Subscriber, Customer, Member etc.)
-* Only show blocks to **specific users**. Great for personalization. **NEW** 🎉
+* Only show blocks to **specific users**. Great for personalization.
 * Show or hide dynamic blocks based on **URL query strings**. Great for marketing campaigns!
 * **Advanced Custom Fields (ACF):** Control the visibility of block content based on [ACF](https://wordpress.org/plugins/advanced-custom-fields/) fields.
 * **WP Fusion:** Combine Block Visibility with the power of [WP Fusion](https://wordpress.org/plugins/wp-fusion-lite/) to conditionally show or hide content based on data from your favorite CRM or marketing automation platform.
@@ -51,7 +51,7 @@ It takes just **3 simple steps**:
 * Set permissions so only certain users have access to visibility conditions.
 * Configure up to 4 different breakpoints to optimize the screen size controls.
 * Disable contextual indicators and other plugin utilities.
-* Customize the contextual indicator color to enhance theme compatibility. **NEW** 🎉
+* Customize the contextual indicator color to enhance theme compatibility.
 * Enable Full Control Mode 🚀 (See the FAQs).
 * Remove all plugin settings on uninstall.
 
@@ -142,11 +142,11 @@ Stay up-to-date on Block Visibility using the links below. The plugin is also be
 == Screenshots ==
 
 1. Quickly and easily hide show or hide blocks on your website.
-2. Schedule blocks using start and end date/time settings. The plugin provides complete block scheduling and work with all Gutenberg blocks, including WooCommerce as seen here. The [Pro add-on](https://www.blockvisibilitywp.com/pro/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) adds day-of-week and time-of-day recursion functionality.
+2. Schedule blocks using start and end date/time settings. The plugin provides complete block scheduling and work with all Gutenberg blocks, including WooCommerce as seen here. The Pro add-on includes day-of-week and time-of-day recursion functionality.
 3. Show or hide block on mobile devices, tables, desktops and more.
 4. Control who can see each Gutenberg block with user role restrictions. Great for personalization.
-5. Create unique marketing campaigns using query string parameters to display personalized messaging ([See it in action](https://www.blockvisibilitywp.com?bv_query=example))
-6. Current integrations include Advanced Custom Fields and WP Fusion. Robust eCommerce integrations for WooCommerce and Easy Digital Downloads are available in the [Pro add-on](https://www.blockvisibilitywp.com/pro/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme).
+5. Create unique marketing campaigns using query string parameters to display personalized messaging.
+6. Current integrations include Advanced Custom Fields and WP Fusion. Robust eCommerce integrations for WooCommerce and Easy Digital Downloads are available in the Pro add-on.
 7. General plugin settings to enable/disable certain functionality including user permissions and Full Control Mode.
 8. Choose which conditional visibility controls you would like to use on your site.
 9. Disable or enable conditional visibility on certain block types with the Block Manager.
@@ -166,7 +166,7 @@ Stay up-to-date on Block Visibility using the links below. The plugin is also be
 = Who should use Block Visibility? =
 Block Visibility is a powerful, yet simple, plugin that gives marketing agencies, bloggers, eCommerce websites, and small businesses owners the power to conditionally show or hide blocks on their websites. The need to hide Gutenberg blocks varies. Whether you need to restrict content to certain users like members, or launch a promotional campaign at a specific time with block scheduling, the applications are endless.
 
-If you need content control, i.e. Gutenberg block control, on your WordPress website, then you need Block Visibility.
+If you need dynamic content control, i.e. Gutenberg block control, on your WordPress website, then you need Block Visibility.
 
 = Is there a pro/premium version of Block Visibility? =
 Absolutely! [Block Visibility Pro](https://www.blockvisibilitywp.com/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) available as an optional paid add-on and includes advanced functionality and third-party integrations.
@@ -196,6 +196,29 @@ Visibility is controlled primarily on the server, so if a block should be hidden
 The **one exception** to this is the Screen Size block controls. Visibility by screen size requires the use of CSS, which is loaded to the frontend of your site if, and only if, these controls are enabled. You can opt to disable this CSS and add the necessary yourself. Visit the plugin [Knowledge Base](https://www.blockvisibilitywp.com/knowledge-base/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) to learn more.
 
 == Changelog ==
+
+= 2.1.0 - 2021-09-09 =
+
+**Added**
+
+* Added the ability to reset plugin settings and restore defaults from within the admin.
+* The Advanced Custom Fields control can now display blocks based on user fields.
+
+**Changed**
+
+* Moved the create_date_time function to its own utility file. This allows for its use across the plugin and Block Visibility Pro.
+* Refactored rule and rule set functionality to provide for greater extensibility.
+* Improve extensibility of the control set toolbar menu for future Pro add-on functionality.
+
+**Removed**
+
+* Removed erroneous integration-checks.php file.
+
+**Fixed**
+
+* Fixed bug where not all users would be fetched in the User Role control. Thanks @lenehanj for discovering this issue and opening a support ticket!
+* Fixed styling on multi-select components.
+* Fixed z-index on contextual indicators that was causing some unwanted overlapping.
 
 = 2.0.0 - 2021-07-27 =
 
