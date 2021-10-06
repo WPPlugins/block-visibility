@@ -5,7 +5,7 @@ Tags: visibility, dynamic content, conditional content, conditional blocks, rest
 Requires at least: 5.5
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPL-2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -199,6 +199,19 @@ Visibility is controlled primarily on the server, so if a block should be hidden
 The **one exception** to this is the Screen Size block controls. Visibility by screen size requires the use of CSS, which is loaded to the frontend of your site if, and only if, these controls are enabled. You can opt to disable this CSS and add the necessary yourself. Visit the plugin [Knowledge Base](https://www.blockvisibilitywp.com/knowledge-base/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) to learn more.
 
 == Changelog ==
+
+= 2.1.2 - 2021-10-06 =
+
+**Changed**
+
+* Updated incompatibility notice for the Screen Size control to include HTML blocks and directed users to a workaround.
+
+**Fixed**
+
+* Fixed bug in the Date & Time control where timezones with +30 minute offsets were not handled properly. Thanks @ashleyzwp for discovering this issue and opening a support ticket!
+* Fixed bug in Query String control that caused a test failure when multiple strings using same query parameter were used. Thanks Lucian for discovering this issue and opening a support ticket!
+* Fixed conflict with Sensei (and potentially other third-party plugins) caused by the render_block filter returning `null` when a block is hidden. An empty string is now returned instead. Thanks Ted for discovering this issue and opening a support ticket!
+* Fixed bug caused by admin scripts being enqueued during DOING_AJAX. Thanks Ted for discovering this issue and opening a support ticket!
 
 = 2.1.1 - 2021-09-14 =
 
