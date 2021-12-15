@@ -3,9 +3,9 @@ Author URI:        https://www.nickdiego.com/?bv_query=readme
 Contributors:      ndiego, outermostdesign
 Tags:              visibility, dynamic content, conditional content, conditional blocks, restrict blocks
 Requires at least: 5.5
-Tested up to:      5.8
+Tested up to:      5.9
 Requires PHP:      5.6
-Stable tag:        2.2.0
+Stable tag:        2.3.0
 License:           GPL-2.0
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,7 +166,7 @@ Stay up-to-date on Block Visibility using the links below. The plugin is also be
 
 1. You have a couple options:
 	* Go to Plugins &rarr; Add New and search for "Block Visibility". Once found, click "Install".
-	* Download Block Visibility from Wordpress.org and make sure the folder us zipped. Then upload via Plugins &rarr; Add New &rarr; Upload.
+	* Download Block Visibility from WordPress.org and make sure the folder is zipped. Then upload via Plugins &rarr; Add New &rarr; Upload.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. From the 'Plugins' page, head directly to the plugin 'Settings' page.
 4. Once there, you can click on the 'Getting Started' tab where you will be presented with some getting started information along with the plugin [demo video](https://www.youtube.com/watch?v=DdDwQCE7RNE).
@@ -207,6 +207,26 @@ Visibility is controlled primarily on the server, so if a block should be hidden
 The **one exception** to this is the Screen Size block controls. Visibility by screen size requires the use of CSS, which is loaded to the frontend of your site if, and only if, these controls are enabled. You can opt to disable this CSS and add the necessary yourself. Visit the plugin [Knowledge Base](https://www.blockvisibilitywp.com/knowledge-base/?bv_query=readme&utm_source=block_visibility&utm_medium=plugin&utm_campaign=readme) to learn more.
 
 == Changelog ==
+
+= 2.3.0 - 2021-12-14 =
+
+**Added**
+
+* Added advanced User Role controls (User Rule Sets).
+* Allow Block Visibility Pro settings to disable local visibility controls.
+
+**Changed**
+
+* Moved the default visibility control settings from the "General Settings" tab to the "Visibility Controls" tab.
+* The additional contextual indicator settings are now disabled when indicators are disabled.
+* Rule sets now support a custom rule label.
+* Temporarily remove the "Editor Notices" Block Editor setting since it's no longer relevant. This setting will be evaluated and potentially reintroduced in v2.4.
+* Updated plugin compatibility to WordPress 5.9.
+
+**Fixed**
+
+* Fixed issue where Visibility Presets would appear in available control defaults with Block Visibility Pro is enabled.
+* Fixed minor styling issues found in WordPress 5.9 testing.
 
 = 2.2.0 - 2021-10-29 =
 

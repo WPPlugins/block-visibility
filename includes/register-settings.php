@@ -32,13 +32,16 @@ function register_settings() {
 				'visibility_by_role' => array(
 					'type'       => 'object',
 					'properties' => array(
-						'enable'            => array(
+						'enable'                => array(
 							'type' => 'boolean',
 						),
-						'enable_user_roles' => array(
+						'enable_user_roles'     => array(
 							'type' => 'boolean',
 						),
-						'enable_users'      => array(
+						'enable_users'          => array(
+							'type' => 'boolean',
+						),
+						'enable_user_rule_sets' => array(
 							'type' => 'boolean',
 						),
 					),
@@ -187,9 +190,10 @@ function register_settings() {
 				'enable' => true,
 			),
 			'visibility_by_role' => array(
-				'enable'            => true,
-				'enable_user_roles' => true,
-				'enable_users'      => true,
+				'enable'                => true,
+				'enable_user_roles'     => true,
+				'enable_users'          => true,
+				'enable_user_rule_sets' => true,
 			),
 			'date_time'          => array(
 				'enable'            => true,
