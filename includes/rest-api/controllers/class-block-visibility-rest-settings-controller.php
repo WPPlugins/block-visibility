@@ -89,6 +89,9 @@ class Block_Visibility_REST_Settings_Controller extends WP_REST_Controller {
 		// large degree, but more could be added.
 		$settings = $request->get_params();
 
+		// The locale is often appended to the request. We don't need this.
+		unset( $settings['_locale'] );
+
 		$error_message = __( 'Something went wrong, the settings could not be updated.', 'block-visibility' );
 
 		if ( ! get_option( 'block_visibility_settings' ) ) {
@@ -114,6 +117,9 @@ class Block_Visibility_REST_Settings_Controller extends WP_REST_Controller {
 				// minus the settings that was wanted to reset.
 				$default_settings = get_option( 'block_visibility_settings' );
 				$new_settings     = array_merge( $default_settings, $old_settings );
+
+				// Update the plugin settings.
+				update_option( 'block_visibility_settings', $new_settings );
 			}
 		} else {
 
@@ -128,7 +134,6 @@ class Block_Visibility_REST_Settings_Controller extends WP_REST_Controller {
 		} else {
 			return new WP_Error( '404', $error_message, array( 'status' => 404 ) );
 		}
-
 	}
 
 	/**
@@ -140,159 +145,5 @@ class Block_Visibility_REST_Settings_Controller extends WP_REST_Controller {
 
 		// Any admin level capacity will do, just needs to be an admin user.
 		return current_user_can( 'activate_plugins' );
-	}
-
-	/**
-	 * Get the Settings schema, conforming to JSON Schema.
-	 *
-	 * @return array
-	 */
-	public function get_item_schema() {
-		if ( $this->schema ) {
-			// Since WordPress 5.3, the schema can be cached in the $schema property.
-			return $this->schema;
-		}
-
-		$schema = array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'settings',
-			'type'       => 'object',
-			'properties' => array(
-				'visibility_controls' => array(
-					'type'       => 'object',
-					'properties' => array(
-						'hide_block'         => array(
-							'type'       => 'object',
-							'properties' => array(
-								'enable' => array(
-									'type' => 'boolean',
-								),
-							),
-						),
-						'visibility_by_role' => array(
-							'type'       => 'object',
-							'properties' => array(
-								'enable'            => array(
-									'type' => 'boolean',
-								),
-								'enable_user_roles' => array(
-									'type' => 'boolean',
-								),
-							),
-						),
-						'date_time'          => array(
-							'type'       => 'object',
-							'properties' => array(
-								'enable' => array(
-									'type' => 'boolean',
-								),
-							),
-						),
-						'screen_size'        => array(
-							'type'       => 'object',
-							'properties' => array(
-								'enable'                   => array(
-									'type' => 'boolean',
-								),
-								'breakpoints'              => array(
-									'type'       => 'object',
-									'properties' => array(
-										'extra_large' => array(
-											'type' => 'string',
-										),
-										'large'       => array(
-											'type' => 'string',
-										),
-										'medium'      => array(
-											'type' => 'string',
-										),
-										'small'       => array(
-											'type' => 'string',
-										),
-									),
-								),
-								'controls'                 => array(
-									'type'       => 'object',
-									'properties' => array(
-										'extra_large' => array(
-											'type' => 'boolean',
-										),
-										'large'       => array(
-											'type' => 'boolean',
-										),
-										'medium'      => array(
-											'type' => 'boolean',
-										),
-										'small'       => array(
-											'type' => 'boolean',
-										),
-										'extra_small' => array(
-											'type' => 'boolean',
-										),
-									),
-								),
-								'enable_advanced_controls' => array(
-									'type' => 'boolean',
-								),
-								'enable_frontend_css'      => array(
-									'type' => 'boolean',
-								),
-							),
-						),
-					),
-				),
-				'disabled_blocks'     => array(
-					'type'  => 'array',
-					'items' => array(
-						'type' => 'string',
-					),
-				),
-				'plugin_settings'     => array(
-					'type'       => 'object',
-					'properties' => array(
-						'default_controls'              => array(
-							'type'  => 'array',
-							'items' => array(
-								'type' => 'string',
-							),
-						),
-						'enable_contextual_indicators'  => array(
-							'type' => 'boolean',
-						),
-						'contextual_indicator_color'    => array(
-							'type' => 'string',
-						),
-						'enable_toolbar_controls'       => array(
-							'type' => 'boolean',
-						),
-						'enable_editor_notices'         => array(
-							'type' => 'boolean',
-						),
-						'enable_user_role_restrictions' => array(
-							'type' => 'boolean',
-						),
-						'enabled_user_roles'            => array(
-							'type'  => 'array',
-							'items' => array(
-								'type' => 'string',
-							),
-						),
-						'enable_full_control_mode'      => array(
-							'type' => 'boolean',
-						),
-						'remove_on_uninstall'           => array(
-							'type' => 'boolean',
-						),
-					),
-				),
-			),
-		);
-
-		$this->schema = apply_filters(
-			'block_visibility_rest_settings_schema',
-			$schema
-		);
-
-		return $this->schema;
 	}
 }

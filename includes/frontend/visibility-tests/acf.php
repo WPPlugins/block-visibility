@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Internal dependencies
  */
-use function BlockVisibility\Utils\is_control_enabled as is_control_enabled;
+use function BlockVisibility\Utils\is_control_enabled;
 
 /**
  * Run test to see if block visibility should be restricted by ACF field rules.
@@ -85,10 +85,12 @@ function acf_test( $is_visible, $settings, $controls ) {
 			$rule_set_test_results = array();
 
 			foreach ( $rules as $rule ) {
-				$field         = isset( $rule['field'] ) ? $rule['field'] : null;
-				$is_user_field = isset( $rule['subField'] ) ? $rule['subField'] : null;
-				$operator      = isset( $rule['operator'] ) ? $rule['operator'] : null;
-				$value         = isset( $rule['value'] ) ? $rule['value'] : null;
+				$field           = isset( $rule['field'] ) ? $rule['field'] : null;
+				$sub_field       = isset( $rule['subField'] ) ? $rule['subField'] : '';
+				$operator        = isset( $rule['operator'] ) ? $rule['operator'] : null;
+				$value           = isset( $rule['value'] ) ? $rule['value'] : null;
+				$is_user_field   = in_array( $sub_field, array( 'true', 'user' ), true );
+				$is_option_field = 'option' === $sub_field;
 
 				// Assume error and try to disprove.
 				$test_result = 'error';
@@ -97,15 +99,18 @@ function acf_test( $is_visible, $settings, $controls ) {
 
 					$acf_field = null;
 
-					if ( $is_user_field && ! $current_user_id ) {
-
-						// We are evaluating a user field, but the current user
-						// is not logged in, so the test fails.
-						$test_result = 'hidden';
-
-					} elseif ( $is_user_field && $current_user_id ) {
-						$acf_field = get_field_object( $field, 'user_' . $current_user_id );
+					if ( $is_user_field ) {
+						if ( ! $current_user_id ) {
+							// User field is being evaluated but no current user is logged in.
+							$test_result = 'hidden';
+						} else {
+							$acf_field = get_field_object( $field, 'user_' . $current_user_id );
+						}
+					} elseif ( $is_option_field ) {
+						// Get the ACF field for options pages.
+						$acf_field = get_field_object( $field, 'option' );
 					} else {
+						// Get the ACF field for the current post.
 						$acf_field = get_field_object( $field );
 					}
 
@@ -188,94 +193,83 @@ function run_acf_rule_tests( $operator, $value, $acf_field ) {
 		return false;
 	}
 
+	$field_value = $acf_field['value'];
+
+	// Used to detect "choice" field type values.
+	$is_array = is_array( $field_value );
+
 	// Assume error and try to disprove.
 	$test_result = 'error';
 
-	switch ( $operator ) {
-		case 'notEmpty':
-			$test_result = ! empty( $acf_field['value'] ) ? true : false;
-			break;
+	if ( 'notEmpty' === $operator ) {
+		$test_result = ! empty( $field_value );
+	} elseif ( 'empty' === $operator ) {
+		$test_result = empty( $field_value );
+	} elseif ( isset( $value ) ) {
 
-		case 'empty':
-			$test_result = empty( $acf_field['value'] ) ? true : false;
-			break;
+		// Choice values are generally arrays and need to be treated differently.
+		// Allow for type juggling here since array can include strings or numbers.
+		if ( is_array( $field_value ) ) {
+			switch ( $operator ) {
+				case 'equal':
+					$test_result = in_array( $value, $field_value ) && count( $field_value ) === 1; // phpcs:ignore
+					break;
 
-		case 'equal':
-			if ( isset( $value ) ) {
-				$test_result = $acf_field['value'] === $value ? true : false;
+				case 'notEqual':
+					$test_result = ! in_array( $value, $field_value ); // phpcs:ignore
+					break;
+
+				case 'contains':
+					$test_result = in_array( $value, $field_value ); // phpcs:ignore
+					break;
+
+				case 'notContain':
+					$test_result = ! in_array( $value, $field_value ); // phpcs:ignore
+					break;
+
+				default:
+					$test_result = 'error';  // We don't have a valid operator, so throw error.
+					break;
 			}
-			break;
+		} else {
 
-		case 'notEqual':
-			if ( isset( $value ) ) {
-				$test_result = $acf_field['value'] !== $value ? true : false;
+			// Use "equal" instead of "identical" to allow for type juggling.
+			switch ( $operator ) {
+				case 'equal':
+					$test_result = $field_value == $value; // phpcs:ignore
+					break;
+
+				case 'notEqual':
+					$test_result = $field_value != $value; // phpcs:ignore
+					break;
+
+				case 'greaterThan':
+					$test_result = $field_value > $value;
+					break;
+
+				case 'greaterThanEqual':
+					$test_result = $field_value >= $value;
+					break;
+
+				case 'lessThan':
+					$test_result = $field_value < $value;
+					break;
+
+				case 'lessThanEqual':
+					$test_result = $field_value <= $value;
+					break;
+
+				case 'contains':
+					$test_result = strpos( $field_value, $value ) !== false;
+					break;
+
+				case 'notContain':
+					$test_result = strpos( $field_value, $value ) === false;
+					break;
 			}
-			break;
-
-		case 'contains':
-			if ( isset( $value ) ) {
-				if ( strpos( $acf_field['value'], $value ) !== false ) {
-					$test_result = true;
-				} else {
-					$test_result = false;
-				}
-			}
-			break;
-
-		case 'notContain':
-			if ( isset( $value ) ) {
-				if ( strpos( $acf_field['value'], $value ) === false ) {
-					$test_result = true;
-				} else {
-					$test_result = false;
-				}
-			}
-			break;
-
-		// Deprecated values.
-		case '!=empty':
-			$test_result = ! empty( $acf_field['value'] ) ? true : false;
-			break;
-
-		case '==empty':
-			$test_result = empty( $acf_field['value'] ) ? true : false;
-			break;
-
-		case '==':
-			if ( isset( $value ) ) {
-				$test_result = $acf_field['value'] === $value ? true : false;
-			}
-			break;
-
-		case '!=':
-			if ( isset( $value ) ) {
-				$test_result = $acf_field['value'] !== $value ? true : false;
-			}
-			break;
-
-		case '==contains':
-			if ( isset( $value ) ) {
-				if ( strpos( $acf_field['value'], $value ) !== false ) {
-					$test_result = true;
-				} else {
-					$test_result = false;
-				}
-			}
-			break;
-
-		case '!=contains':
-			if ( isset( $value ) ) {
-				if ( strpos( $acf_field['value'], $value ) === false ) {
-					$test_result = true;
-				} else {
-					$test_result = false;
-				}
-			}
-			break;
-
-		default:
-			$test_result = 'error';  // We don't have a valid operator, so throw error.
-			break;
+		}
+	} else {
+		$test_result = 'error';  // We don't have a valid operator, so throw error.
 	}
 
 	return $test_result;

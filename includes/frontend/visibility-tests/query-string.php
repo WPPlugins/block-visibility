@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Internal dependencies
  */
-use function BlockVisibility\Utils\is_control_enabled as is_control_enabled;
+use function BlockVisibility\Utils\is_control_enabled;
 
 /**
  * Run test to see if block visibility should be restricted by query string.
@@ -61,9 +61,9 @@ function query_string_test( $is_visible, $settings, $controls ) {
 
 			if ( isset( $_REQUEST[ $param ] ) ) { // phpcs:ignore
 				if ( ! $value || '*' === $value ) {
-					$any_matches++;
+					++$any_matches;
 				} elseif ( $value === $_REQUEST[ $param ] ) { // phpcs:ignore
-					$any_matches++;
+					++$any_matches;
 				}
 			}
 		}
@@ -82,10 +82,10 @@ function query_string_test( $is_visible, $settings, $controls ) {
 			$value = $string[ $param ];
 
 			if ( isset( $_REQUEST[ $param ] ) ) { // phpcs:ignore
-				if ( ! $value || '*' === $value ) {
-					$all_matches++;
+				if ( is_null( $value ) || '*' === $value ) {
+					++$all_matches;
 				} elseif ( $value === $_REQUEST[ $param ] ) { // phpcs:ignore
-					$all_matches++;
+					++$all_matches;
 				}
 			}
 		}
@@ -135,5 +135,6 @@ function prepare_queries( $queries ) {
 		parse_str( $query, $result );
 		$ordered_queries[] = $result;
 	}
+
 	return $ordered_queries;
 }

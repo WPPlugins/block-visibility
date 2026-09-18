@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Internal dependencies
  */
-use function BlockVisibility\Utils\is_control_enabled as is_control_enabled;
+use function BlockVisibility\Utils\is_control_enabled;
 
 /**
  * Run test to see if block visibility should be restricted by user role.
@@ -167,10 +167,10 @@ function user_role_test( $is_visible, $settings, $controls ) {
 					return true;
 				}
 			}
-		} elseif ( empty( $restricted_users ) && $hide_on_resticted_users ) {
+		} elseif ( empty( $restricted_users ) && $hide_on_restricted_users ) {
 			return true;
 		}
-	} else if ( 'user-rule-sets' === $visibility_by_role ) {
+	} elseif ( 'user-rule-sets' === $visibility_by_role ) {
 
 		// If this functionality has been disabled, skip test.
 		if ( ! is_control_enabled( $settings, 'visibility_by_role', 'enable_user_rule_sets' ) ) {
@@ -261,7 +261,7 @@ add_filter( 'block_visibility_control_set_is_block_visible', __NAMESPACE__ . '\u
 /**
  * Run the individual rule tests.
  *
- * @since 2.4.0
+ * @since 2.3.0
  *
  * @param array $rule All rule settings.
  * @return string     Returns 'visible', 'hidden', or 'error'.
@@ -303,7 +303,7 @@ function run_user_rule_tests( $rule ) {
 /**
  * Run the user role test.
  *
- * @since 2.4.0
+ * @since 2.3.0
  *
  * @param array $rule All rule settings.
  * @return string     Returns 'visible', 'hidden', or 'error'.
@@ -345,7 +345,7 @@ function run_user_role_test( $rule ) {
 /**
  * Run the users test.
  *
- * @since 2.4.0
+ * @since 2.3.0
  *
  * @param array $rule All rule settings.
  * @return string     Returns 'visible', 'hidden', or 'error'.
@@ -378,35 +378,6 @@ function run_users_test( $rule ) {
 		$test_result = 'visible';
 	} else {
 		$test_result = 'hidden';
-	}
-
-	return $test_result;
-}
-
-/**
- * Helper function for determining if an array contains all 'true's, at least
- * one 'true' or no 'true's.
- *
- * @since 2.4.0
- *
- * @param string $operator The rule operator.
- * @param string $results  An array of 'true' and 'false' to compare agains the operator.
- * @return string          Returns 'visible', 'hidden', or 'error'.
- */
-function contains_value_compare( $operator, $results ) {
-
-	if ( empty( $results ) || ! is_array( $results ) ) {
-		return 'error';
-	}
-
-	$test_result = 'error';
-
-	if ( 'atLeastOne' === $operator ) {
-		$test_result = in_array( 'true', $results, true ) ? 'visible' : 'hidden';
-	} elseif ( 'all' === $operator ) {
-		$test_result = ! in_array( 'false', $results, true ) ? 'visible' : 'hidden';
-	} elseif ( 'none' === $operator ) {
-		$test_result = ! in_array( 'true', $results, true ) ? 'visible' : 'hidden';
 	}
 
 	return $test_result;

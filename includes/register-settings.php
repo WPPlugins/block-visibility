@@ -1,6 +1,6 @@
 <?php
 /**
- * Register the plugin settings
+ * Register the plugin settings.
  *
  * @package block-visibility
  * @since   1.0.0
@@ -11,7 +11,7 @@ namespace BlockVisibility;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register plugin settings.
+ * Register the plugin settings.
  *
  * @since 1.0.0
  */
@@ -21,6 +21,40 @@ function register_settings() {
 		'visibility_controls' => array(
 			'type'       => 'object',
 			'properties' => array(
+				'browser_device'     => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'cookie'             => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'date_time'          => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable'             => array(
+							'type' => 'boolean',
+						),
+						'enable_day_of_week' => array(
+							'type' => 'boolean',
+						),
+						'enable_time_of_day' => array(
+							'type' => 'boolean',
+						),
+						// Deprecated in 1.8.0.
+						'enable_scheduling'  => array(
+							'type' => 'boolean',
+						),
+					),
+				),
 				'hide_block'         => array(
 					'type'       => 'object',
 					'properties' => array(
@@ -29,31 +63,34 @@ function register_settings() {
 						),
 					),
 				),
-				'visibility_by_role' => array(
+				'location'           => array(
 					'type'       => 'object',
 					'properties' => array(
-						'enable'                => array(
-							'type' => 'boolean',
-						),
-						'enable_user_roles'     => array(
-							'type' => 'boolean',
-						),
-						'enable_users'          => array(
-							'type' => 'boolean',
-						),
-						'enable_user_rule_sets' => array(
+						'enable' => array(
 							'type' => 'boolean',
 						),
 					),
 				),
-				'date_time'          => array(
+				'metadata'           => array(
 					'type'       => 'object',
 					'properties' => array(
-						'enable'            => array(
+						'enable' => array(
 							'type' => 'boolean',
 						),
-						// Deprecated in 1.8.0.
-						'enable_scheduling' => array(
+					),
+				),
+				'query_string'       => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'referral_source'    => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable' => array(
 							'type' => 'boolean',
 						),
 					),
@@ -109,7 +146,32 @@ function register_settings() {
 						),
 					),
 				),
-				'query_string'       => array(
+				'url_path'           => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'visibility_by_role' => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable'                => array(
+							'type' => 'boolean',
+						),
+						'enable_user_roles'     => array(
+							'type' => 'boolean',
+						),
+						'enable_users'          => array(
+							'type' => 'boolean',
+						),
+						'enable_user_rule_sets' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'visibility_presets' => array(
 					'type'       => 'object',
 					'properties' => array(
 						'enable' => array(
@@ -122,6 +184,28 @@ function register_settings() {
 					'type'       => 'object',
 					'properties' => array(
 						'enable' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'edd'                => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable'                  => array(
+							'type' => 'boolean',
+						),
+						'enable_variable_pricing' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+				'woocommerce'        => array(
+					'type'       => 'object',
+					'properties' => array(
+						'enable'                  => array(
+							'type' => 'boolean',
+						),
+						'enable_variable_pricing' => array(
 							'type' => 'boolean',
 						),
 					),
@@ -157,6 +241,12 @@ function register_settings() {
 				'contextual_indicator_color'    => array(
 					'type' => 'string',
 				),
+				'enable_block_opacity'          => array(
+					'type' => 'boolean',
+				),
+				'block_opacity'                 => array(
+					'type' => 'number',
+				),
 				'enable_toolbar_controls'       => array(
 					'type' => 'boolean',
 				),
@@ -178,6 +268,9 @@ function register_settings() {
 				'remove_on_uninstall'           => array(
 					'type' => 'boolean',
 				),
+				'enable_control_set_utilities'  => array(
+					'type' => 'boolean',
+				),
 			),
 		),
 	);
@@ -186,18 +279,33 @@ function register_settings() {
 
 	$defaults = array(
 		'visibility_controls' => array(
+			'browser_device'     => array(
+				'enable' => true,
+			),
+			'cookie'             => array(
+				'enable' => true,
+			),
+			'date_time'          => array(
+				'enable'             => true,
+				'enable_day_of_week' => true,
+				'enable_time_of_day' => true,
+				// Deprecated in 1.8.0.
+				'enable_scheduling'  => true,
+			),
 			'hide_block'         => array(
 				'enable' => true,
 			),
-			'visibility_by_role' => array(
-				'enable'                => true,
-				'enable_user_roles'     => true,
-				'enable_users'          => true,
-				'enable_user_rule_sets' => true,
+			'location'           => array(
+				'enable' => true,
 			),
-			'date_time'          => array(
-				'enable'            => true,
-				'enable_scheduling' => true,
+			'metadata'           => array(
+				'enable' => true,
+			),
+			'query_string'       => array(
+				'enable' => true,
+			),
+			'referral_source'    => array(
+				'enable' => true,
 			),
 			'screen_size'        => array(
 				'enable'                   => true,
@@ -217,8 +325,29 @@ function register_settings() {
 				'enable_advanced_controls' => false,
 				'enable_frontend_css'      => true,
 			),
-			'query_string'       => array(
+			'url_path'           => array(
 				'enable' => true,
+			),
+			'visibility_by_role' => array(
+				'enable'                => true,
+				'enable_user_roles'     => true,
+				'enable_users'          => true,
+				'enable_user_rule_sets' => true,
+			),
+			'visibility_presets' => array(
+				'enable' => true,
+			),
+			// Third-party Integrations.
+			'acf'                => array(
+				'enable' => true,
+			),
+			'woocommerce'        => array(
+				'enable'                  => true,
+				'enable_variable_pricing' => true,
+			),
+			'edd'                => array(
+				'enable'                  => true,
+				'enable_variable_pricing' => true,
 			),
 			'wp_fusion'          => array(
 				'enable' => true,
@@ -226,15 +355,18 @@ function register_settings() {
 		),
 		'disabled_blocks'     => array(),
 		'plugin_settings'     => array(
-			'default_controls'              => array( 'date_time', 'visibility_by_role', 'screen_size' ),
+			'default_controls'              => array(),
 			'enable_contextual_indicators'  => true,
 			'contextual_indicator_color'    => '',
+			'enable_block_opacity'          => false,
+			'block_opacity'                 => 100,
 			'enable_toolbar_controls'       => true,
 			'enable_editor_notices'         => true,
 			'enable_user_role_restrictions' => false,
 			'enabled_user_roles'            => array(),
 			'enable_full_control_mode'      => false,
 			'remove_on_uninstall'           => false,
+			'enable_control_set_utilities'  => true,
 		),
 	);
 
